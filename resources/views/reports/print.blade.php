@@ -50,6 +50,7 @@
 </head>
 <body>
 
+    {{-- Tombol ini hanya muncul di layar, lalu disembunyikan saat halaman dicetak. --}}
     <div class="no-print" style="margin-bottom: 20px;">
         <button onclick="window.print()">Print</button>
         <button onclick="window.close()">Tutup</button>
@@ -59,6 +60,7 @@
     <h4>Laporan Persediaan Barang</h4>
 
     <div class="periode">
+        {{-- Menampilkan periode filter jika tanggal awal dan akhir tersedia. --}}
         @if(request('start_date') && request('end_date'))
             Periode: {{ request('start_date') }} sampai {{ request('end_date') }}
         @else
@@ -66,6 +68,7 @@
         @endif
     </div>
 
+    {{-- Tabel ini berisi data transaksi yang akan dicetak. --}}
     <table>
         <thead>
             <tr>
@@ -79,6 +82,7 @@
             </tr>
         </thead>
         <tbody>
+            {{-- Jika data kosong, tampilkan satu baris keterangan. --}}
             @forelse ($transactions as $transaction)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -104,6 +108,7 @@
     </div>
 
     <script>
+        // Otomatis membuka dialog print saat halaman cetak dimuat.
         window.print();
     </script>
 

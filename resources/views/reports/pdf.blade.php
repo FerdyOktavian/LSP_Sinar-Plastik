@@ -43,6 +43,7 @@
     <h4>Laporan Persediaan Barang</h4>
 
     <div class="periode">
+        {{-- Menampilkan periode laporan jika filter tanggal dipakai. --}}
         @if(request('start_date') && request('end_date'))
             Periode: {{ request('start_date') }} sampai {{ request('end_date') }}
         @else
@@ -50,6 +51,7 @@
         @endif
     </div>
 
+    {{-- Tabel ini menjadi isi utama file PDF laporan persediaan. --}}
     <table>
         <thead>
             <tr>
@@ -63,12 +65,14 @@
             </tr>
         </thead>
         <tbody>
+            {{-- @forelse memastikan PDF tetap menampilkan pesan jika data laporan kosong. --}}
             @forelse ($transactions as $transaction)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->product->code ?? '-' }}</td>
-                    <td>{{ $transaction->product->name ?? '-' }}</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $transaction->date }}</td>
+                        {{-- Tanda ?? '-' dipakai sebagai pengganti jika data barang tidak tersedia. --}}
+                        <td>{{ $transaction->product->code ?? '-' }}</td>
+                        <td>{{ $transaction->product->name ?? '-' }}</td>
                     <td>{{ ucfirst($transaction->type) }}</td>
                     <td>{{ $transaction->quantity }}</td>
                     <td>{{ $transaction->description }}</td>

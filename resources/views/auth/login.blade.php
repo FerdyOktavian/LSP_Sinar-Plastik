@@ -61,22 +61,27 @@
 </head>
 <body>
 
+    {{-- Kotak utama untuk form login pengguna. --}}
     <div class="login-box">
         <h2>Toko Sinar Plastik</h2>
         <p>Aplikasi Persediaan Barang</p>
 
+        {{-- Menampilkan pesan error jika proses login gagal. --}}
         @if (session('error'))
             <div class="error">
                 {{ session('error') }}
             </div>
         @endif
 
+        {{-- Form dikirim ke route login untuk memproses email dan password. --}}
         <form action="/login" method="POST">
+            {{-- Token CSRF wajib ada agar form aman dari request palsu. --}}
             @csrf
 
             <label>Email</label>
             <input type="email" name="email" value="{{ old('email') }}">
 
+            {{-- Menampilkan pesan validasi khusus untuk input email. --}}
             @error('email')
                 <div style="color:red; margin-bottom:10px;">{{ $message }}</div>
             @enderror
@@ -84,6 +89,7 @@
             <label>Password</label>
             <input type="password" name="password">
 
+            {{-- Menampilkan pesan validasi khusus untuk input password. --}}
             @error('password')
                 <div style="color:red; margin-bottom:10px;">{{ $message }}</div>
             @enderror

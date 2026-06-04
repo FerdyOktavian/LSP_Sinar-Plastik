@@ -4,6 +4,7 @@
     <h1>Kategori Barang</h1>
     <p>Halaman ini digunakan untuk mengelola data kategori barang.</p>
     
+    {{-- Form pencarian mengirim keyword lewat method GET agar bisa dibaca dari URL. --}}
     <form action="/categories" method="GET">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori...">
         <button type="submit">Cari</button>
@@ -14,6 +15,7 @@
     <div class="card">
     <a href="/categories/create" class="btn">+ Tambah Kategori</a>
 
+        {{-- Tabel menampilkan daftar kategori beserta tombol aksi edit dan hapus. --}}
         <table border="1" cellpadding="10" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -23,6 +25,7 @@
                 </tr>
             </thead>
             <tbody>
+                {{-- @forelse menampilkan data jika ada, dan pesan kosong jika data belum tersedia. --}}
                 @forelse ($categories as $category)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -32,6 +35,7 @@
 
                             <form action="/categories/{{ $category->id_category }}" method="POST" style="display:inline;">
                                 @csrf
+                                {{-- Method DELETE dipakai karena HTML form hanya mendukung GET dan POST. --}}
                                 @method('DELETE')
 
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus kategori ini?')">

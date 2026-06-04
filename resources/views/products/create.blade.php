@@ -5,6 +5,7 @@
     <p>Form ini digunakan untuk menambahkan data barang.</p>
 
     <div class="card">
+        {{-- Form ini mengirim data barang baru ke controller Product. --}}
         <form action="/products" method="POST">
             @csrf
 
@@ -12,6 +13,7 @@
                 <label>Kategori</label><br>
                 <select name="id_category" style="width: 100%; padding: 8px;">
                     <option value="">-- Pilih Kategori --</option>
+                    {{-- Daftar kategori berasal dari controller agar barang bisa dikaitkan ke kategori. --}}
                     @foreach ($categories as $category)
                         <option value="{{ $category->id_category }}" {{ old('id_category') == $category->id_category ? 'selected' : '' }}>
                             {{ $category->name }}
@@ -19,6 +21,7 @@
                     @endforeach
                 </select>
 
+                {{-- Menampilkan error jika kategori belum dipilih. --}}
                 @error('id_category')
                     <div style="color: red; margin-top: 5px;">{{ $message }}</div>
                 @enderror
@@ -26,6 +29,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Kode Barang</label><br>
+                {{-- old() membuat nilai input tidak hilang saat validasi gagal. --}}
                 <input type="text" name="code" value="{{ old('code') }}" placeholder="Contoh: BRG001" style="width: 100%; padding: 8px;">
 
                 @error('code')
@@ -53,6 +57,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Stok</label><br>
+                {{-- Stok awal tidak boleh negatif karena memakai min="0". --}}
                 <input type="number" name="stock" value="{{ old('stock') }}" min="0" style="width: 100%; padding: 8px;">
 
                 @error('stock')
@@ -62,6 +67,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Batas Minimum Stok</label><br>
+                {{-- Batas minimum dipakai untuk menentukan status stok rendah. --}}
                 <input type="number" name="minimum_stock" value="{{ old('minimum_stock') }}" min="0" style="width: 100%; padding: 8px;">
 
                 @error('minimum_stock')

@@ -112,11 +112,13 @@
 </head>
 <body>
 
+    {{-- Navbar berisi judul aplikasi yang muncul di bagian atas halaman. --}}
     <div class="navbar">
         Aplikasi Persediaan Barang - Toko Sinar Plastik
     </div>
 
     <div class="wrapper">
+        {{-- Sidebar berisi menu navigasi utama untuk berpindah halaman. --}}
         <div class="sidebar">
             <h3>Menu Admin</h3>
 
@@ -128,6 +130,7 @@
             <a href="/products">Daftar Barang</a>
             <a href="/users">Manajemen Pengguna</a>
             <a href="/reports">Laporan</a>
+            {{-- Form logout memakai POST agar proses keluar lebih aman. --}}
             <form action="/logout" method="POST" style="margin:0;">
                 @csrf
                 <button type="submit" style="width:100%; padding:12px 20px; background:none; color:white; border:none; text-align:left; cursor:pointer;">
@@ -137,18 +140,21 @@
         </div>
 
         <div class="content">
+            {{-- Pesan sukses ditampilkan setelah aksi seperti simpan, update, atau hapus berhasil. --}}
             @if (session('success'))
                 <div style="background:#d4edda; color:#155724; padding:10px; margin-bottom:15px; border-radius:4px;">
                     {{ session('success') }}
                 </div>
             @endif
 
+            {{-- Pesan error ditampilkan jika ada aksi yang gagal atau tidak diperbolehkan. --}}
             @if (session('error'))
                 <div style="background:#f8d7da; color:#721c24; padding:10px; margin-bottom:15px; border-radius:4px;">
                     {{ session('error') }}
                 </div>
             @endif
 
+            {{-- Tempat isi halaman lain dimasukkan melalui @section('content'). --}}
             @yield('content')
         </div>
     </div>

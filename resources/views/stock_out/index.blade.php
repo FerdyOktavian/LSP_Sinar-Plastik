@@ -5,10 +5,12 @@
     <p>Halaman ini digunakan untuk mencatat dan melihat riwayat barang keluar.</p>
 
     <div class="card">
+        {{-- Tombol menuju form untuk menambahkan transaksi stok keluar. --}}
         <a href="/stock-out/create" style="display:inline-block; margin-bottom:15px; padding:8px 12px; background:#2c3e50; color:white; text-decoration:none; border-radius:4px;">
             + Tambah Barang Keluar
         </a>
 
+        {{-- Tabel menampilkan riwayat barang keluar yang sudah dicatat. --}}
         <table border="1" cellpadding="10" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -21,10 +23,12 @@
                 </tr>
             </thead>
             <tbody>
+                {{-- @forelse dipakai agar tetap ada tampilan ketika transaksi belum tersedia. --}}
                 @forelse ($transactions as $transaction)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $transaction->date }}</td>
+                        {{-- Tanda ?? '-' menjadi pengganti jika relasi barang tidak ada. --}}
                         <td>{{ $transaction->product->code ?? '-' }}</td>
                         <td>{{ $transaction->product->name ?? '-' }}</td>
                         <td>{{ $transaction->quantity }}</td>

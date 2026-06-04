@@ -6,6 +6,7 @@
 
     <div class="card">
 
+    {{-- Form pencarian membantu mencari persediaan berdasarkan kode atau nama barang. --}}
     <form action="/inventory" method="GET">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode/nama barang...">
         <button type="submit">Cari</button>
@@ -13,6 +14,7 @@
     </form>
 
     <br>
+        {{-- Tabel persediaan menampilkan stok saat ini tanpa tombol ubah atau hapus. --}}
         <table border="1" cellpadding="10" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -27,6 +29,7 @@
                 </tr>
             </thead>
             <tbody>
+                {{-- @forelse menampilkan daftar barang, atau pesan kosong jika belum ada data. --}}
                 @forelse ($products as $product)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -37,6 +40,7 @@
                         <td>{{ $product->stock }}</td>
                         <td>{{ $product->minimum_stock }}</td>
                         <td>
+                            {{-- Status stok dihitung dari stok saat ini dan batas minimum. --}}
                             @if ($product->stock == 0)
                                 Tidak Tersedia
                             @elseif ($product->stock <= $product->minimum_stock)

@@ -5,14 +5,17 @@
     <p>Form ini digunakan untuk mengubah data barang.</p>
 
     <div class="card">
+        {{-- Form update diarahkan ke barang yang sedang diedit berdasarkan id_product. --}}
         <form action="/products/{{ $product->id_product }}" method="POST">
             @csrf
+            {{-- Method PUT digunakan untuk memperbarui data barang. --}}
             @method('PUT')
 
             <div style="margin-bottom: 15px;">
                 <label>Kategori</label><br>
                 <select name="id_category" style="width: 100%; padding: 8px;">
                     <option value="">-- Pilih Kategori --</option>
+                    {{-- Pilihan kategori otomatis memilih kategori lama milik barang ini. --}}
                     @foreach ($categories as $category)
                         <option value="{{ $category->id_category }}"
                             {{ old('id_category', $product->id_category) == $category->id_category ? 'selected' : '' }}>
@@ -28,6 +31,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Kode Barang</label><br>
+                {{-- old() memakai input sebelumnya, lalu fallback ke data barang dari database. --}}
                 <input type="text" name="code" value="{{ old('code', $product->code) }}" style="width: 100%; padding: 8px;">
 
                 @error('code')
@@ -64,6 +68,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Batas Minimum Stok</label><br>
+                {{-- Batas minimum membantu sistem memberi status stok rendah. --}}
                 <input type="number" name="minimum_stock" value="{{ old('minimum_stock', $product->minimum_stock) }}" min="0" style="width: 100%; padding: 8px;">
 
                 @error('minimum_stock')

@@ -5,11 +5,13 @@
     <p>Form ini digunakan untuk mencatat penambahan stok barang.</p>
 
     <div class="card">
+        {{-- Form ini mencatat transaksi stok masuk dan menambah stok barang. --}}
         <form action="/stock-in" method="POST">
             @csrf
 
             <div style="margin-bottom: 15px;">
                 <label>Tanggal</label><br>
+                {{-- Tanggal dipakai sebagai waktu pencatatan transaksi stok masuk. --}}
                 <input type="date" name="date" value="{{ old('date') }}" style="width: 100%; padding: 8px;">
 
                 @error('date')
@@ -21,6 +23,7 @@
                 <label>Barang</label><br>
                 <select name="id_product" style="width: 100%; padding: 8px;">
                     <option value="">-- Pilih Barang --</option>
+                    {{-- Pilihan barang menampilkan kode, nama, dan stok saat ini agar mudah dicek. --}}
                     @foreach ($products as $product)
                         <option value="{{ $product->id_product }}" {{ old('id_product') == $product->id_product ? 'selected' : '' }}>
                             {{ $product->code }} - {{ $product->name }} | Stok: {{ $product->stock }}
@@ -35,6 +38,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Jumlah Masuk</label><br>
+                {{-- Jumlah masuk minimal 1 karena stok yang dicatat harus bertambah. --}}
                 <input type="number" name="quantity" value="{{ old('quantity') }}" min="1" style="width: 100%; padding: 8px;">
 
                 @error('quantity')
@@ -44,6 +48,7 @@
 
             <div style="margin-bottom: 15px;">
                 <label>Keterangan</label><br>
+                {{-- Keterangan bersifat opsional untuk menjelaskan asal atau catatan transaksi. --}}
                 <textarea name="description" style="width: 100%; padding: 8px;">{{ old('description') }}</textarea>
 
                 @error('description')
