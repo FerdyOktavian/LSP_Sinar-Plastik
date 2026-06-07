@@ -1,74 +1,80 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Laporan Persediaan</h1>
-    <p>Halaman ini digunakan untuk melihat laporan transaksi persediaan barang.</p>
+    <div class="page-header">
+        <h1 class="page-title">Laporan Persediaan</h1>
+        <p class="page-desc">Melihat, memfilter, mencetak, dan mengunduh laporan transaksi persediaan barang.</p>
+    </div>
 
     <div class="card">
-        {{-- Form filter memakai tanggal awal dan akhir untuk membatasi data laporan. --}}
-        <form action="/reports" method="GET" style="margin-bottom: 20px;">
-            <label>Tanggal Awal</label><br>
-            <input type="date" name="start_date" value="{{ request('start_date') }}" style="padding: 8px; margin-bottom: 10px;"><br>
+        <form action="/reports" method="GET" style="display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 18px;">
+            <div style="width: 220px;">
+                <label>Tanggal Awal</label>
+                <input type="date" name="start_date" value="{{ request('start_date') }}">
+            </div>
 
-            <label>Tanggal Akhir</label><br>
-            <input type="date" name="end_date" value="{{ request('end_date') }}" style="padding: 8px; margin-bottom: 10px;"><br>
+            <div style="width: 220px;">
+                <label>Tanggal Akhir</label>
+                <input type="date" name="end_date" value="{{ request('end_date') }}">
+            </div>
 
             <button type="submit" class="btn">Filter</button>
-
             <a href="/reports" class="btn btn-secondary">Reset</a>
 
-            {{-- Link print membuka tampilan cetak di tab baru dengan filter tanggal yang sama. --}}
             <a href="/reports/print?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}"
-            target="_blank"
-            class="btn btn-success">
+               target="_blank"
+               class="btn btn-success">
                 Print
             </a>
 
-            {{-- Link PDF mengunduh laporan dalam format PDF. --}}
             <a href="/reports/pdf?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}"
-            class="btn btn-danger">
+               class="btn btn-danger">
                 Download PDF
             </a>
 
-            {{-- Link CSV mengunduh laporan agar bisa dibuka di aplikasi spreadsheet. --}}
             <a href="/reports/excel?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}"
-            class="btn btn-success">
+               class="btn btn-success">
                 Download CSV
             </a>
         </form>
 
-        {{-- Tabel menampilkan semua transaksi stok sesuai filter laporan. --}}
-        <table border="1" cellpadding="10" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Kode Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Jenis</th>
-                    <th>Jumlah</th>
-                    <th>Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- @forelse menjaga tabel tetap informatif saat data laporan kosong. --}}
-                @forelse ($transactions as $transaction)
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $transaction->date }}</td>
-                        {{-- Tanda ?? '-' dipakai jika relasi barang tidak ditemukan. --}}
-                        <td>{{ $transaction->product->code ?? '-' }}</td>
-                        <td>{{ $transaction->product->name ?? '-' }}</td>
-                        <td>{{ ucfirst($transaction->type) }}</td>
-                        <td>{{ $transaction->quantity }}</td>
-                        <td>{{ $transaction->description }}</td>
+                        <th style="width: 60px;">No</th>
+                        <th>Tanggal</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Jenis</th>
+                        <th>Jumlah</th>
+                        <th>Keterangan</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" align="center">Data laporan belum tersedia.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($transactions as $transaction)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $transaction->date }}</td>
+                            <td>{{ $transaction->product->code ?? '-' }}</td>
+                            <td>{{ $transaction->product->name ?? '-' }}</td>
+                            <td>
+                                @if ($transaction->type == 'masuk')
+                                    <span class="badge badge-success">Masuk</span>
+                                @else
+                                    <span class="badge badge-danger">Keluar</span>
+                                @endif
+                            </td>
+                            <td>{{ $transaction->quantity }}</td>
+                            <td>{{ $transaction->description }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" style="text-align:center;">Data laporan belum tersedia.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection

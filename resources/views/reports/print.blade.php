@@ -6,73 +6,128 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            color: #000;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #111827;
+            margin: 30px;
+            font-size: 13px;
         }
 
-        h2, h4 {
+        .no-print {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .header {
             text-align: center;
-            margin: 5px;
+            border-bottom: 2px solid #111827;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #374151;
+        }
+
+        .info {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 12px;
         }
 
         table, th, td {
-            border: 1px solid #000;
+            border: 1px solid #111827;
+        }
+
+        th {
+            background: #f3f4f6;
+            font-weight: bold;
         }
 
         th, td {
             padding: 8px;
-            font-size: 13px;
             text-align: left;
         }
 
-        .periode {
-            text-align: center;
-            margin-top: 10px;
+        .footer {
+            margin-top: 45px;
+            display: flex;
+            justify-content: flex-end;
         }
 
-        .footer {
-            margin-top: 40px;
-            text-align: right;
+        .signature {
+            text-align: center;
+            width: 220px;
         }
 
         @media print {
             .no-print {
                 display: none;
             }
+
+            body {
+                margin: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    {{-- Tombol ini hanya muncul di layar, lalu disembunyikan saat halaman dicetak. --}}
-    <div class="no-print" style="margin-bottom: 20px;">
-        <button onclick="window.print()">Print</button>
-        <button onclick="window.close()">Tutup</button>
+    <div class="no-print">
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn btn-secondary" onclick="window.close()">Tutup</button>
     </div>
 
-    <h2>TOKO SINAR PLASTIK</h2>
-    <h4>Laporan Persediaan Barang</h4>
-
-    <div class="periode">
-        {{-- Menampilkan periode filter jika tanggal awal dan akhir tersedia. --}}
-        @if(request('start_date') && request('end_date'))
-            Periode: {{ request('start_date') }} sampai {{ request('end_date') }}
-        @else
-            Periode: Semua Data
-        @endif
+    <div class="header">
+        <h2>TOKO SINAR PLASTIK</h2>
+        <p>Laporan Persediaan Barang</p>
     </div>
 
-    {{-- Tabel ini berisi data transaksi yang akan dicetak. --}}
+    <div class="info">
+        <div>
+            <strong>Periode:</strong>
+            @if(request('start_date') && request('end_date'))
+                {{ request('start_date') }} sampai {{ request('end_date') }}
+            @else
+                Semua Data
+            @endif
+        </div>
+
+        <div>
+            <strong>Tanggal Cetak:</strong> {{ date('d-m-Y') }}
+        </div>
+    </div>
+
     <table>
         <thead>
             <tr>
-                <th>No</th>
+                <th style="width: 40px;">No</th>
                 <th>Tanggal</th>
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
@@ -82,7 +137,6 @@
             </tr>
         </thead>
         <tbody>
-            {{-- Jika data kosong, tampilkan satu baris keterangan. --}}
             @forelse ($transactions as $transaction)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -95,20 +149,21 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" align="center">Data laporan belum tersedia.</td>
+                    <td colspan="7" style="text-align:center;">Data laporan belum tersedia.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
     <div class="footer">
-        <p>Dicetak oleh: Admin</p>
-        <br><br>
-        <p>_____________________</p>
+        <div class="signature">
+            <p>Admin Toko</p>
+            <br><br><br>
+            <p>_____________________</p>
+        </div>
     </div>
 
     <script>
-        // Otomatis membuka dialog print saat halaman cetak dimuat.
         window.print();
     </script>
 

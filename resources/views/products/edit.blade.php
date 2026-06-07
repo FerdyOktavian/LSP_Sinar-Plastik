@@ -1,85 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Edit Barang</h1>
-    <p>Form ini digunakan untuk mengubah data barang.</p>
+    <div class="page-header">
+        <h1 class="page-title">Edit Barang</h1>
+        <p class="page-desc">Mengubah data barang yang sudah tersimpan di sistem.</p>
+    </div>
 
     <div class="card">
-        {{-- Form update diarahkan ke barang yang sedang diedit berdasarkan id_product. --}}
         <form action="/products/{{ $product->id_product }}" method="POST">
             @csrf
-            {{-- Method PUT digunakan untuk memperbarui data barang. --}}
             @method('PUT')
 
-            <div style="margin-bottom: 15px;">
-                <label>Kategori</label><br>
-                <select name="id_category" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Kategori Barang</label>
+                <select name="id_category">
                     <option value="">-- Pilih Kategori --</option>
-                    {{-- Pilihan kategori otomatis memilih kategori lama milik barang ini. --}}
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id_category }}"
-                            {{ old('id_category', $product->id_category) == $category->id_category ? 'selected' : '' }}>
+                        <option value="{{ $category->id_category }}" {{ old('id_category', $product->id_category) == $category->id_category ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
 
                 @error('id_category')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Kode Barang</label><br>
-                {{-- old() memakai input sebelumnya, lalu fallback ke data barang dari database. --}}
-                <input type="text" name="code" value="{{ old('code', $product->code) }}" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Kode Barang</label>
+                <input type="text" name="code" value="{{ old('code', $product->code) }}">
 
                 @error('code')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Nama Barang</label><br>
-                <input type="text" name="name" value="{{ old('name', $product->name) }}" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Nama Barang</label>
+                <input type="text" name="name" value="{{ old('name', $product->name) }}">
 
                 @error('name')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Satuan</label><br>
-                <input type="text" name="unit" value="{{ old('unit', $product->unit) }}" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Satuan</label>
+                <input type="text" name="unit" value="{{ old('unit', $product->unit) }}">
 
                 @error('unit')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Stok</label><br>
-                <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" min="0" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Stok</label>
+                <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" min="0">
 
                 @error('stock')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label>Batas Minimum Stok</label><br>
-                {{-- Batas minimum membantu sistem memberi status stok rendah. --}}
-                <input type="number" name="minimum_stock" value="{{ old('minimum_stock', $product->minimum_stock) }}" min="0" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Batas Minimum Stok</label>
+                <input type="number" name="minimum_stock" value="{{ old('minimum_stock', $product->minimum_stock) }}" min="0">
 
                 @error('minimum_stock')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <button type="submit" style="padding:8px 12px; background:#2c3e50; color:white; border:none; border-radius:4px;">
-                Update
-            </button>
-
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="/products" class="btn btn-secondary">Batal</a>
         </form>
     </div>

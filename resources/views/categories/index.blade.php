@@ -1,55 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Kategori Barang</h1>
-    <p>Halaman ini digunakan untuk mengelola data kategori barang.</p>
-    
-    {{-- Form pencarian mengirim keyword lewat method GET agar bisa dibaca dari URL. --}}
-    <form action="/categories" method="GET">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori...">
-        <button type="submit">Cari</button>
-        <a href="/categories">Reset</a>
-    </form>
+    <div class="page-header">
+        <h1 class="page-title">Kategori Barang</h1>
+        <p class="page-desc">Mengelola data kategori barang pada Toko Sinar Plastik.</p>
+    </div>
 
-<br>
     <div class="card">
-    <a href="/categories/create" class="btn">+ Tambah Kategori</a>
+        <form action="/categories" method="GET" class="search-box">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori barang...">
 
-        {{-- Tabel menampilkan daftar kategori beserta tombol aksi edit dan hapus. --}}
-        <table border="1" cellpadding="10" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Kategori</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- @forelse menampilkan data jika ada, dan pesan kosong jika data belum tersedia. --}}
-                @forelse ($categories as $category)
+            <button type="submit" class="btn">Cari</button>
+            <a href="/categories" class="btn btn-secondary">Reset</a>
+        </form>
+
+        <a href="/categories/create" class="btn btn-success">+ Tambah Kategori</a>
+
+        <br><br>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $category->name }}</td>
-                        <td>
-                            <a href="/categories/{{ $category->id_category }}/edit">Edit</a>
-
-                            <form action="/categories/{{ $category->id_category }}" method="POST" style="display:inline;">
-                                @csrf
-                                {{-- Method DELETE dipakai karena HTML form hanya mendukung GET dan POST. --}}
-                                @method('DELETE')
-
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus kategori ini?')">
-                                    Hapus
-                                </button>
-                            </form>
-                        </td>
+                        <th style="width: 70px;">No</th>
+                        <th>Nama Kategori</th>
+                        <th style="width: 180px;">Aksi</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" align="center">Data kategori belum tersedia.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($categories as $category)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $category->name }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/categories/{{ $category->id_category }}/edit" class="btn btn-warning">
+                                        Edit
+                                    </a>
+
+                                    <form action="/categories/{{ $category->id_category }}" method="POST" style="margin:0;">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus kategori ini?')">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" style="text-align:center;">Data kategori belum tersedia.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection

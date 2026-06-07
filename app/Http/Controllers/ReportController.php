@@ -57,7 +57,7 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('reports.pdf', compact('transactions'));
 
         // Mengunduh PDF dengan nama file laporan-persediaan.pdf.
-        return $pdf->download('laporan-persediaan.pdf');
+        return $pdf->download('laporan-persediaan-toko-sinar-plastik.pdf');
     }
 
     public function excel(Request $request)
@@ -74,7 +74,7 @@ class ReportController extends Controller
         $transactions = $query->orderBy('date', 'desc')->get();
     
         // Nama file yang akan diunduh oleh pengguna.
-        $fileName = 'laporan-persediaan.csv';
+        $fileName = 'laporan-persediaan-toko-sinar-plastik.csv';
     
         // Header ini memberi tahu browser bahwa response adalah file CSV untuk diunduh.
         $headers = [

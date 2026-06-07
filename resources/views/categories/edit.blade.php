@@ -1,31 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Edit Kategori</h1>
-    <p>Form ini digunakan untuk mengubah data kategori barang.</p>
+    <div class="page-header">
+        <h1 class="page-title">Edit Kategori</h1>
+        <p class="page-desc">Mengubah data kategori barang yang sudah tersimpan.</p>
+    </div>
 
     <div class="card">
-        {{-- Form update diarahkan ke kategori yang sedang diedit berdasarkan id_category. --}}
         <form action="/categories/{{ $category->id_category }}" method="POST">
             @csrf
-            {{-- Method PUT menandakan bahwa data lama akan diperbarui. --}}
             @method('PUT')
 
-            <div style="margin-bottom: 15px;">
-                <label>Nama Kategori</label><br>
-                {{-- old() menjaga input tetap terisi jika validasi gagal. --}}
-                <input type="text" name="name" value="{{ old('name', $category->name) }}" style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label>Nama Kategori</label>
+                <input type="text" name="name" value="{{ old('name', $category->name) }}">
 
-                {{-- Menampilkan pesan validasi untuk nama kategori. --}}
                 @error('name')
-                    <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <button type="submit" style="padding:8px 12px; background:#2c3e50; color:white; border:none; border-radius:4px;">
-                Update
-            </button>
-
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="/categories" class="btn btn-secondary">Batal</a>
         </form>
     </div>

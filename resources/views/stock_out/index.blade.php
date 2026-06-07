@@ -1,45 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Barang Keluar</h1>
-    <p>Halaman ini digunakan untuk mencatat dan melihat riwayat barang keluar.</p>
+    <div class="page-header">
+        <h1 class="page-title">Barang Keluar</h1>
+        <p class="page-desc">Mencatat dan melihat riwayat pengurangan stok barang.</p>
+    </div>
 
     <div class="card">
-        {{-- Tombol menuju form untuk menambahkan transaksi stok keluar. --}}
-        <a href="/stock-out/create" style="display:inline-block; margin-bottom:15px; padding:8px 12px; background:#2c3e50; color:white; text-decoration:none; border-radius:4px;">
-            + Tambah Barang Keluar
-        </a>
+        <a href="/stock-out/create" class="btn btn-success">+ Tambah Barang Keluar</a>
 
-        {{-- Tabel menampilkan riwayat barang keluar yang sudah dicatat. --}}
-        <table border="1" cellpadding="10" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>Kode Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah Keluar</th>
-                    <th>Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- @forelse dipakai agar tetap ada tampilan ketika transaksi belum tersedia. --}}
-                @forelse ($transactions as $transaction)
+        <br><br>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $transaction->date }}</td>
-                        {{-- Tanda ?? '-' menjadi pengganti jika relasi barang tidak ada. --}}
-                        <td>{{ $transaction->product->code ?? '-' }}</td>
-                        <td>{{ $transaction->product->name ?? '-' }}</td>
-                        <td>{{ $transaction->quantity }}</td>
-                        <td>{{ $transaction->description }}</td>
+                        <th style="width: 60px;">No</th>
+                        <th>Tanggal</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah Keluar</th>
+                        <th>Keterangan</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" align="center">Data barang keluar belum tersedia.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($transactions as $transaction)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $transaction->date }}</td>
+                            <td>{{ $transaction->product->code ?? '-' }}</td>
+                            <td>{{ $transaction->product->name ?? '-' }}</td>
+                            <td>{{ $transaction->quantity }}</td>
+                            <td>{{ $transaction->description }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" style="text-align:center;">Data barang keluar belum tersedia.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection

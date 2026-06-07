@@ -1,43 +1,56 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Dashboard</h1>
-    <p>Ringkasan data persediaan barang Toko Sinar Plastik.</p>
-
-    {{-- Kartu ini menampilkan jumlah semua barang yang terdaftar. --}}
-    <div class="card">
-        <h3>Total Barang</h3>
-        <h2>{{ $totalProducts }}</h2>
+    <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-desc">Ringkasan kondisi persediaan barang pada Toko Sinar Plastik.</p>
     </div>
 
-    {{-- Total stok masuk dihitung dari seluruh transaksi bertipe masuk. --}}
-    <div class="card">
-        <h3>Total Stok Masuk</h3>
-        <h2>{{ $totalStockIn }}</h2>
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="label">Total Barang</div>
+            <div class="number">{{ $totalProducts }}</div>
+            <div class="note">Jumlah barang yang terdaftar di sistem.</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">Total Stok Masuk</div>
+            <div class="number">{{ $totalStockIn }}</div>
+            <div class="note">Akumulasi barang masuk dari seluruh transaksi.</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">Total Stok Keluar</div>
+            <div class="number">{{ $totalStockOut }}</div>
+            <div class="note">Akumulasi barang keluar dari seluruh transaksi.</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">Stok Rendah</div>
+            <div class="number">{{ $lowStockProducts }}</div>
+            <div class="note">Barang yang stoknya sudah mencapai batas minimum.</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">Stok Tertinggi</div>
+
+            @if ($highestStockProduct)
+                <div class="number" style="font-size: 23px;">
+                    {{ $highestStockProduct->name }}
+                </div>
+                <div class="note">Jumlah stok: {{ $highestStockProduct->stock }}</div>
+            @else
+                <div class="number">0</div>
+                <div class="note">Belum ada data barang.</div>
+            @endif
+        </div>
     </div>
 
-    {{-- Total stok keluar dihitung dari seluruh transaksi bertipe keluar. --}}
     <div class="card">
-        <h3>Total Stok Keluar</h3>
-        <h2>{{ $totalStockOut }}</h2>
-    </div>
-
-    {{-- Menampilkan jumlah barang yang stoknya sudah rendah. --}}
-    <div class="card">
-        <h3>Stok Terendah</h3>
-        <h2>{{ $lowStockProducts }}</h2>
-        <p>Barang dengan stok kurang dari atau sama dengan batas minimum.</p>
-    </div>
-
-    {{-- Jika ada data barang, tampilkan barang dengan stok paling tinggi. --}}
-    <div class="card">
-        <h3>Stok Tertinggi</h3>
-
-        @if ($highestStockProduct)
-            <h2>{{ $highestStockProduct->name }}</h2>
-            <p>Stok: {{ $highestStockProduct->stock }}</p>
-        @else
-            <p>Belum ada data barang.</p>
-        @endif
+        <h3>Informasi Sistem</h3>
+        <p>
+            Dashboard digunakan untuk menampilkan informasi singkat mengenai data barang,
+            transaksi stok, stok rendah, dan barang dengan stok tertinggi.
+        </p>
     </div>
 @endsection
