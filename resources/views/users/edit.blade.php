@@ -7,12 +7,15 @@
     </div>
 
     <div class="card">
+        {{-- Form update diarahkan ke akun yang sedang diedit berdasarkan id_user. --}}
         <form action="/users/{{ $user->id_user }}" method="POST">
             @csrf
+            {{-- Method PUT digunakan untuk memperbarui data pengguna. --}}
             @method('PUT')
 
             <div class="form-group">
                 <label>Nama</label>
+                {{-- old() memakai input sebelumnya, lalu fallback ke nama user dari database. --}}
                 <input type="text" name="name" value="{{ old('name', $user->name) }}">
 
                 @error('name')
@@ -31,6 +34,7 @@
 
             <div class="form-group">
                 <label>Password Baru</label>
+                {{-- Password boleh dikosongkan jika tidak ingin mengganti password lama. --}}
                 <input type="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
 
                 @error('password')
@@ -40,6 +44,7 @@
 
             <div class="form-group">
                 <label>Role</label>
+                {{-- Pilihan role otomatis mengikuti role user saat ini. --}}
                 <select name="role">
                     <option value="">-- Pilih Role --</option>
                     <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>

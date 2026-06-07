@@ -133,6 +133,7 @@
 </head>
 <body>
 
+{{-- Wrapper utama yang membagi halaman login menjadi area informasi dan form. --}}
 <div class="login-wrapper">
     <div class="login-info">
         <h1>Aplikasi Persediaan Barang</h1>
@@ -145,18 +146,23 @@
         <h2>Login Admin</h2>
         <div class="desc">Masukkan email dan password untuk mengakses sistem.</div>
 
+        {{-- Menampilkan pesan error jika email atau password login salah. --}}
         @if (session('error'))
             <div class="error-box">
                 {{ session('error') }}
             </div>
         @endif
 
+        {{-- Form login dikirim ke route /login untuk diproses oleh AuthController. --}}
         <form action="/login" method="POST">
+            {{-- CSRF token wajib untuk melindungi form dari request yang tidak sah. --}}
             @csrf
 
             <label>Email</label>
+            {{-- old('email') menjaga email tetap muncul jika validasi login gagal. --}}
             <input type="email" name="email" value="{{ old('email') }}" placeholder="admin@gmail.com">
 
+            {{-- Menampilkan pesan validasi khusus untuk input email. --}}
             @error('email')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -164,6 +170,7 @@
             <label>Password</label>
             <input type="password" name="password" placeholder="Masukkan password">
 
+            {{-- Menampilkan pesan validasi khusus untuk input password. --}}
             @error('password')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

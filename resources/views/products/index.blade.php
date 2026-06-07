@@ -7,6 +7,7 @@
     </div>
 
     <div class="card">
+        {{-- Form pencarian digunakan untuk mencari barang berdasarkan kode atau nama. --}}
         <form action="/products" method="GET" class="search-box">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode atau nama barang...">
 
@@ -19,6 +20,7 @@
         <br><br>
 
         <div class="table-wrapper">
+            {{-- Tabel ini menampilkan data barang lengkap dengan kategori, stok, status, dan aksi. --}}
             <table>
                 <thead>
                     <tr>
@@ -34,6 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- @forelse menjaga tampilan tetap jelas saat data barang masih kosong. --}}
                     @forelse ($products as $product)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -44,6 +47,7 @@
                             <td>{{ $product->stock }}</td>
                             <td>{{ $product->minimum_stock }}</td>
                             <td>
+                                {{-- Status barang dihitung dari stok saat ini dan batas minimum stok. --}}
                                 @if ($product->stock == 0)
                                     <span class="badge badge-danger">Tidak Tersedia</span>
                                 @elseif ($product->stock <= $product->minimum_stock)
@@ -60,6 +64,7 @@
 
                                     <form action="/products/{{ $product->id_product }}" method="POST" style="margin:0;">
                                         @csrf
+                                        {{-- Method DELETE dipakai untuk menghapus data barang. --}}
                                         @method('DELETE')
 
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus barang ini?')">

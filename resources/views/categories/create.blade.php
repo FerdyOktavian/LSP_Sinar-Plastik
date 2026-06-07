@@ -7,13 +7,17 @@
     </div>
 
     <div class="card">
+        {{-- Form ini mengirim data kategori baru ke controller untuk disimpan. --}}
         <form action="/categories" method="POST">
+            {{-- Token CSRF menjaga form dari request palsu. --}}
             @csrf
 
             <div class="form-group">
                 <label>Nama Kategori</label>
+                {{-- old('name') membuat input tetap terisi jika validasi gagal. --}}
                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Contoh: Plastik, Kemasan, Alat Makan">
 
+                {{-- Pesan validasi akan tampil jika nama kategori belum sesuai aturan. --}}
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

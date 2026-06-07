@@ -419,6 +419,7 @@
 </head>
 <body>
 
+{{-- Layout utama yang dipakai oleh halaman admin setelah login. --}}
 <div class="app">
     <aside class="sidebar">
         <div class="brand">
@@ -427,6 +428,7 @@
         </div>
 
         <div class="menu">
+            {{-- Link menu diberi class active jika URL halaman sedang sesuai. --}}
             <div class="menu-section">Utama</div>
             <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">Dashboard</a>
 
@@ -444,6 +446,7 @@
             <a href="/reports" class="{{ request()->is('reports*') ? 'active' : '' }}">Laporan Persediaan</a>
 
             <div class="menu-section">Akun</div>
+            {{-- Logout memakai method POST agar proses keluar akun lebih aman. --}}
             <form action="/logout" method="POST" style="margin:0;">
                 @csrf
                 <button type="submit" class="logout-button">Logout</button>
@@ -458,24 +461,28 @@
                 <p>Toko Sinar Plastik</p>
             </div>
 
+            {{-- Menampilkan nama user yang sedang login, atau Admin jika data tidak tersedia. --}}
             <div class="admin-info">
                 {{ auth()->user()->name ?? 'Admin' }}
             </div>
         </div>
 
         <div class="content">
+            {{-- Pesan sukses muncul setelah aksi seperti simpan, update, atau hapus berhasil. --}}
             @if (session('success'))
                 <div class="alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
+            {{-- Pesan error muncul jika proses gagal atau aksi tidak diizinkan. --}}
             @if (session('error'))
                 <div class="alert-error">
                     {{ session('error') }}
                 </div>
             @endif
 
+            {{-- Isi halaman lain akan dimasukkan di bagian ini melalui @section('content'). --}}
             @yield('content')
         </div>
     </main>

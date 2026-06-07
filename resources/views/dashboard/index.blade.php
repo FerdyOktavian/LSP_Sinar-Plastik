@@ -6,6 +6,7 @@
         <p class="page-desc">Ringkasan kondisi persediaan barang pada Toko Sinar Plastik.</p>
     </div>
 
+    {{-- Kumpulan kartu ringkasan untuk membaca kondisi persediaan dengan cepat. --}}
     <div class="dashboard-grid">
         <div class="stat-card">
             <div class="label">Total Barang</div>
@@ -34,6 +35,7 @@
         <div class="stat-card">
             <div class="label">Stok Tertinggi</div>
 
+            {{-- Jika ada data barang, tampilkan barang dengan stok paling tinggi. --}}
             @if ($highestStockProduct)
                 <div class="number" style="font-size: 23px;">
                     {{ $highestStockProduct->name }}

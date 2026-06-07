@@ -7,14 +7,18 @@
     </div>
 
     <div class="card">
+        {{-- Form update diarahkan ke kategori yang sedang diedit berdasarkan id_category. --}}
         <form action="/categories/{{ $category->id_category }}" method="POST">
             @csrf
+            {{-- Method PUT menandakan bahwa data lama akan diperbarui. --}}
             @method('PUT')
 
             <div class="form-group">
                 <label>Nama Kategori</label>
+                {{-- old() memakai input sebelumnya, lalu fallback ke nama kategori dari database. --}}
                 <input type="text" name="name" value="{{ old('name', $category->name) }}">
 
+                {{-- Menampilkan error validasi untuk nama kategori. --}}
                 @error('name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

@@ -7,6 +7,7 @@
     </div>
 
     <div class="card">
+        {{-- Form pencarian memakai method GET agar kata kunci terlihat di URL. --}}
         <form action="/categories" method="GET" class="search-box">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kategori barang...">
 
@@ -19,6 +20,7 @@
         <br><br>
 
         <div class="table-wrapper">
+            {{-- Tabel menampilkan daftar kategori dan tombol aksi untuk setiap data. --}}
             <table>
                 <thead>
                     <tr>
@@ -28,6 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- @forelse menampilkan data jika ada, dan pesan kosong jika belum ada kategori. --}}
                     @forelse ($categories as $category)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -40,6 +43,7 @@
 
                                     <form action="/categories/{{ $category->id_category }}" method="POST" style="margin:0;">
                                         @csrf
+                                        {{-- Method DELETE digunakan karena form HTML hanya mendukung GET dan POST. --}}
                                         @method('DELETE')
 
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus kategori ini?')">

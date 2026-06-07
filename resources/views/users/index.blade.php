@@ -12,6 +12,7 @@
         <br><br>
 
         <div class="table-wrapper">
+            {{-- Tabel menampilkan semua akun pengguna yang bisa mengakses aplikasi. --}}
             <table>
                 <thead>
                     <tr>
@@ -23,12 +24,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- @forelse menampilkan user jika ada, atau pesan kosong jika belum tersedia. --}}
                     @forelse ($users as $user)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
+                                {{-- ucfirst membuat teks role diawali huruf besar agar lebih rapi. --}}
                                 <span class="badge badge-success">{{ ucfirst($user->role) }}</span>
                             </td>
                             <td>
@@ -39,6 +42,7 @@
 
                                     <form action="/users/{{ $user->id_user }}" method="POST" style="margin:0;">
                                         @csrf
+                                        {{-- Method DELETE digunakan untuk proses hapus pengguna. --}}
                                         @method('DELETE')
 
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus pengguna ini?')">

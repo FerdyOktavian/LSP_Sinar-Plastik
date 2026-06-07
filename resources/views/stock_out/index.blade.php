@@ -12,6 +12,7 @@
         <br><br>
 
         <div class="table-wrapper">
+            {{-- Tabel ini menampilkan riwayat transaksi barang keluar. --}}
             <table>
                 <thead>
                     <tr>
@@ -24,10 +25,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- Jika transaksi kosong, @empty akan menampilkan pesan data belum tersedia. --}}
                     @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $transaction->date }}</td>
+                            {{-- Tanda ?? '-' menjadi pengganti jika relasi barang tidak tersedia. --}}
                             <td>{{ $transaction->product->code ?? '-' }}</td>
                             <td>{{ $transaction->product->name ?? '-' }}</td>
                             <td>{{ $transaction->quantity }}</td>

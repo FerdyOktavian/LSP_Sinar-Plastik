@@ -99,6 +99,7 @@
 </head>
 <body>
 
+    {{-- Tombol ini hanya untuk layar, lalu disembunyikan saat halaman dicetak. --}}
     <div class="no-print">
         <button class="btn" onclick="window.print()">Print</button>
         <button class="btn btn-secondary" onclick="window.close()">Tutup</button>
@@ -112,6 +113,7 @@
     <div class="info">
         <div>
             <strong>Periode:</strong>
+            {{-- Menampilkan periode filter jika tanggal awal dan akhir tersedia. --}}
             @if(request('start_date') && request('end_date'))
                 {{ request('start_date') }} sampai {{ request('end_date') }}
             @else
@@ -124,6 +126,7 @@
         </div>
     </div>
 
+    {{-- Tabel ini berisi data transaksi yang akan dicetak. --}}
     <table>
         <thead>
             <tr>
@@ -137,6 +140,7 @@
             </tr>
         </thead>
         <tbody>
+            {{-- Jika data kosong, tampilkan satu baris keterangan. --}}
             @forelse ($transactions as $transaction)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -164,6 +168,7 @@
     </div>
 
     <script>
+        // Otomatis membuka dialog print saat halaman cetak dimuat.
         window.print();
     </script>
 
